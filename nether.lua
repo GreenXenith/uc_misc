@@ -78,7 +78,7 @@ stairs.register_stair_and_slab(
 
 if minetest.get_modpath("moreblocks") then
 	stairsplus:register_all(
-		"nether", "brick", "uc_misc:brick", {
+		"uc_misc", "brick", "uc_misc:brick", {
 			description = "Nether Brick",
 			groups = {cracky = 2, level = 2},
 			tiles = {"nether_brick.png"},
