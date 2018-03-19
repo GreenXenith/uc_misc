@@ -116,5 +116,5 @@ armor:register_armor("uc_misc:boots_galaxium", {
 armor:register_armor("uc_misc:chestplate_stardust", {
 	description = "Stardust Orb",
 	inventory_image = "stardust_orb.png",
-	groups = {armor_torso=1, physics_gravity=-0.8, armor_use=10},
+	groups = {armor_torso=1, physics_gravity=-0.65, armor_use=10},
 })

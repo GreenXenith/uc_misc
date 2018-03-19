@@ -112,7 +112,6 @@ function duck.boom(pos, def)
 	def.radius = 3
 	def.damage_radius = def.damage_radius or def.radius * 2
 	local meta = minetest.get_meta(pos)
-	local owner = meta:get_string("owner")
 	local sound = def.sound or "explode"
 	minetest.set_node(pos, {name = "air"})
 	minetest.sound_play(sound, {pos = pos, gain = 1.5,
@@ -137,6 +136,7 @@ minetest.register_node("uc_misc:rubber_duck", {
 	use_texture_alpha = true,
 	sunlight_propagates = true,
 	walkable = false,
+	liquids_pointable = true,
 	selection_box = {
 		type = "fixed",
 		fixed = {-0.2, -0.5, 0.35, 0.2, 0, -0.4},
@@ -147,6 +147,31 @@ minetest.register_node("uc_misc:rubber_duck", {
 	},
 	mesh = "duck.obj",
 	paramtype2 = "facedir",
+	groups = {snappy = 3, oddly_breakable_by_hand = 1},
+	on_place = function(itemstack, placer, pointed_thing)
+		local pos = pointed_thing.above
+		local node = minetest.get_node(pointed_thing.under)
+		local def = minetest.registered_nodes[node.name]
+		local player_name = placer and placer:get_player_name() or ""
+		local inv = placer:get_inventory()
+
+		if def and def.on_rightclick then
+			return def.on_rightclick(pointed_thing.under, node, placer, itemstack,pointed_thing)
+		end
+
+		if not minetest.is_protected(pos, player_name) then
+			if def and def.liquidtype == "source" and minetest.get_item_group(node.name, "water") > 0 then			
+				minetest.set_node(pos, {name = "uc_misc:rubber_duck", param2 = minetest.dir_to_facedir(placer:get_look_dir())})
+				itemstack:take_item(1)
+				return itemstack
+			else
+				return minetest.item_place(itemstack, placer, pointed_thing, param2)
+			end
+		else
+			minetest.chat_send_player(player_name, "Node is protected")
+			minetest.record_protection_violation(pos, player_name)
+		end
+	end
 })
 
 minetest.register_node("uc_misc:explody_rubber_duck", {
@@ -174,10 +199,29 @@ minetest.register_node("uc_misc:explody_rubber_duck", {
 	},
 	mesh = "duck.obj",
 	paramtype2 = "facedir",
-	after_place_node = function(pos, placer)
-		if placer:is_player() then
-			local meta = minetest.get_meta(pos)
-			meta:set_string("owner", placer:get_player_name())
+	liquids_pointable = true,
+	on_place = function(itemstack, placer, pointed_thing)
+		local pos = pointed_thing.above
+		local node = minetest.get_node(pointed_thing.under)
+		local def = minetest.registered_nodes[node.name]
+		local player_name = placer and placer:get_player_name() or ""
+		local inv = placer:get_inventory()
+
+		if def and def.on_rightclick then
+			return def.on_rightclick(pointed_thing.under, node, placer, itemstack,pointed_thing)
+		end
+
+		if not minetest.is_protected(pos, player_name) then
+			if def and def.liquidtype == "source" and minetest.get_item_group(node.name, "water") > 0 then			
+				minetest.set_node(pos, {name = "uc_misc:explody_rubber_duck", param2 = minetest.dir_to_facedir(placer:get_look_dir())})
+				itemstack:take_item(1)
+				return itemstack
+			else
+				return minetest.item_place(itemstack, placer, pointed_thing, param2)
+			end
+		else
+			minetest.chat_send_player(player_name, "Node is protected")
+			minetest.record_protection_violation(pos, player_name)
 		end
 	end,
 	on_punch = function(pos)
