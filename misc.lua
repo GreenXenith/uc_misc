@@ -7,7 +7,7 @@ if minetest.get_modpath("moreblocks") then
 	})
 end
 
-function uc_misc:spawn_particles(pos, name, multiplier)
+local function spawn_particles(pos, name, multiplier)
 	local player = minetest.get_player_by_name(name)
 	local bubble_dir = player:get_look_horizontal()
 	local x_offset = (0.3 * math.cos(bubble_dir)) * multiplier
@@ -70,8 +70,8 @@ minetest.register_globalstep(function(dtime)
 						if not is_water(current_pos[name], 1) then
 							return
 						else
-							uc_misc:spawn_particles(current_pos[name], name, 1)
-							uc_misc:spawn_particles(current_pos[name], name, -1)
+							spawn_particles(current_pos[name], name, 1)
+							spawn_particles(current_pos[name], name, -1)
 						end
 					end)
 				end
