@@ -130,7 +130,6 @@ minetest.register_node("uc_misc:rubber_duck", {
 		"blank.png",
 	},
 	inventory_image = "inv_duck.png",
-	groups = {snappy = 2},
 	drawtype = "mesh",
 	paramtype = "light",
 	use_texture_alpha = true,

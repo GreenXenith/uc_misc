@@ -126,3 +126,13 @@ minetest.register_craft({
 		{"pipeworks:pipe_1_empty", "default:steel_ingot", "pipeworks:pipe_1_empty"},
 	},
 })
+
+minetest.register_node("uc_misc:wing", {
+	description = "Dragon Wing",
+	tiles = {"default_stone.png"},
+	groups = {cracky = 3, stone = 1},
+	drawtype = "mesh",
+	walkable = false,
+	mesh = "wing.obj",
+	paramtype2 = "facedir",
+})
