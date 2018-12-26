@@ -69,7 +69,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "uc_misc:chestplate_stardust",
+	output = "uc_misc:stardust_orb",
 	recipe = {
 		{"uc_misc:galaxium_ingot", "cr_plus:crystal_glass", "uc_misc:galaxium_ingot"},
 		{"cr_plus:crystal_glass", "uc_misc:stardust", "cr_plus:crystal_glass"},
@@ -113,11 +113,15 @@ armor:register_armor("uc_misc:boots_galaxium", {
 	groups = {armor_feet=1, physics_speed=1.25, physics_jump=0.55, physics_gravity=-0.1, armor_use=10},
 })
 
-armor:register_armor("uc_misc:chestplate_stardust", {
+table.insert(armor.elements, "orb")
+
+armor:register_armor("uc_misc:stardust_orb", {
 	description = "Stardust Orb",
 	inventory_image = "stardust_orb.png",
-	groups = {armor_torso=1, physics_gravity=-0.65, armor_use=10},
+	groups = {armor_orb=1, physics_gravity=-0.65, armor_use=10},
 })
+
+minetest.register_alias("uc_misc:chestplate_stardust", "uc_misc:stardust_orb")
 
 local materials = {
 	"galaxium",
