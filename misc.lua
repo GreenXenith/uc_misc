@@ -192,25 +192,27 @@ minetest.register_globalstep(function(dtime)
 		local pos = player:get_pos()
 		local inv = minetest.get_inventory({type="detached", name=name.."_armor"})
 		-- Check for the rebreather
-		if inv:contains_item("armor", ItemStack("uc_misc:helmet_rebreather")) then
-			-- Give breath if needed
-			if player:get_breath() ~= 11 then
-				player:set_breath(10)
-				-- If player's below water, play breath sound
-				if is_water(pos, 1) then
-					minetest.sound_play("breath_"..tostring(math.random(1,3)), {
-						to_player = name,
-						gain = 1.4,
-					})
-					-- Spawn bubbles when exhaling
-					minetest.after(2, function()
-						if not is_water(current_pos[name], 1) then
-							return
-						else
-							spawn_particles(player, -1)
-							spawn_particles(player, 1)
-						end
-					end)
+		if inv then
+			if inv:contains_item("armor", ItemStack("uc_misc:helmet_rebreather")) then
+				-- Give breath if needed
+				if player:get_breath() ~= 11 then
+					player:set_breath(10)
+					-- If player's below water, play breath sound
+					if is_water(pos, 1) then
+						minetest.sound_play("breath_"..tostring(math.random(1,3)), {
+							to_player = name,
+							gain = 1.4,
+						})
+						-- Spawn bubbles when exhaling
+						minetest.after(2, function()
+							if not is_water(current_pos[name], 1) then
+								return
+							else
+								spawn_particles(player, -1)
+								spawn_particles(player, 1)
+							end
+						end)
+					end
 				end
 			end
 		end
