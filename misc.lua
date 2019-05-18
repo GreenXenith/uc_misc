@@ -275,7 +275,7 @@ minetest.register_craft({
 minetest.register_node("uc_misc:wing", {
 	description = "Dragon Wing",
 	tiles = {"default_stone.png"},
-	groups = {cracky = 3, stone = 1},
+	groups = {cracky = 3, stone = 1, not_in_creative_inventory = 1},
 	drawtype = "mesh",
 	walkable = false,
 	mesh = "wing.obj",
@@ -365,11 +365,20 @@ minetest.register_node("uc_misc:orb", {
 	light_source = 8,
 	walkable = true,
 	groups = {cracky = 3, oddly_breakable_by_hand = 3},
-	sounds = default.node_sound_leaves_defaults(),
+	sounds = default.node_sound_glass_defaults(),
 	selection_box = {
 		type = "fixed",
 		fixed = {-0.3, -0.3, -0.3, 0.3, 0.3, 0.3},
 	},
+})
+
+minetest.register_craft({
+	output = "uc_misc:orb",
+	recipe = {
+		{"", "uc_misc:pixie_dust", ""},
+		{"uc_misc:pixie_dust", "default:glass", "uc_misc:pixie_dust"},
+		{"", "uc_misc:pixie_dust", ""}
+	}
 })
 
 --[[ Fairies ]]--
@@ -379,6 +388,11 @@ local function get_time()
 	return minetest.get_timeofday() * 24000
 end
 
+local function add_fairy(pos)
+	local fairy = minetest.add_entity(pos, "uc_misc:fairy")
+	fairy:set_armor_groups({immortal = 1})
+end
+
 minetest.register_abm({
 	nodenames = {"uc_misc:orchid"},
 	interval = 20,
@@ -386,10 +400,17 @@ minetest.register_abm({
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		-- Only spawn at night
 		if get_time() < 4500 or get_time() > 20000 then
-			minetest.add_entity({x=pos.x,y=pos.y+0.3,z=pos.z}, "uc_misc:fairy")
+			add_fairy({x=pos.x,y=pos.y+0.3,z=pos.z})
 		end
 	end
 })
+
+local function capture(entity, player)
+	if player:get_wielded_item():get_name() == "vessels:glass_bottle" then
+		player:set_wielded_item(ItemStack("uc_misc:fairy_bottle"))
+		entity.object:remove()
+	end
+end
 
 minetest.register_entity("uc_misc:fairy", {
 	visual = "mesh",
@@ -466,6 +487,53 @@ minetest.register_entity("uc_misc:fairy", {
 		-- Disappear if daytime
 		self.object:remove()
 	end,
-	-- I might change this later, I don"t know.
-	collisionbox = {0,0,0,0,0.1,0},
+	on_rightclick = capture,
+	on_punch = capture,
+	collisionbox = {-0.1,-0.1,-0.1,0.1,0.1,0.1},
+})
+
+-- firefly in a bottle
+minetest.register_node("uc_misc:fairy_bottle", {
+	description = "Fairy in a Bottle",
+	inventory_image = "fairy_bottle.png",
+	wield_image = "fairy_bottle.png",
+	tiles = {{
+		name = "fairy_bottle_animated.png",
+		animation = {
+			type = "vertical_frames",
+			aspect_w = 16,
+			aspect_h = 16,
+			length = 1.5
+		},
+	}},
+	drawtype = "plantlike",
+	paramtype = "light",
+	sunlight_propagates = true,
+	light_source = 9,
+	walkable = false,
+	groups = {oddly_breakable_by_hand = 3, attached_node = 1},
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.25, -0.5, -0.25, 0.25, 0.3, 0.25}
+	},
+	sounds = default.node_sound_glass_defaults(),
+	on_rightclick = function(pos, node, player, itemstack, pointed_thing)
+		add_fairy({x=pos.x,y=pos.y+0.3,z=pos.z})
+		minetest.set_node(pos, {name = "vessels:glass_bottle"})
+	end,
+	on_punch = function(pos, node)
+		if get_time() < 4500 or get_time() > 20000 then
+			if math.random(1, 100) == 1 then
+				local dpos = table.copy(pos)
+				dpos.y = dpos.y + 0.2
+				local dust = minetest.add_item(dpos, ItemStack("uc_misc:pixie_dust "..math.random(1, 2)))
+				dust:set_velocity({x = math.random(-2, 2), y = 2.9, z = math.random(-2, 2)})
+			end
+		end
+	end,
+})
+
+minetest.register_craftitem("uc_misc:pixie_dust", {
+	description = "Pixie Dust",
+	inventory_image = "pixie_dust.png",
 })

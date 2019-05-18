@@ -1,9 +1,11 @@
-default
 3d_armor
-technic
-xtraores
 caverealms
-ethereal
 cr_plus
+default
 dye
+ethereal
 moreblocks?
+moreores
+technic
+vessels
+xtraores

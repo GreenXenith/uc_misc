@@ -39,8 +39,8 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "shapeless",
-	output = "uc_misc:stardust",
-	recipe = {"uc_misc:crystal_dust", "ethereal:fire_dust", "cr_plus:crystal_shard"}
+	output = "uc_misc:stardust 2",
+	recipe = {"uc_misc:crystal_dust", "ethereal:fire_dust", "uc_misc:pixie_dust", "technic:mithril_dust"}
 })
 
 minetest.register_craft({
