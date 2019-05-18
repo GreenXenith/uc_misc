@@ -65,40 +65,38 @@ minetest.register_node(":default:obsidian", {
 -- Register stair and slab
 
 if minetest.get_modpath("moreblocks") then
-	stairsplus:register_all(
-			"uc_misc", "brick", "uc_misc:brick", {
-					description = "Nether Brick",
-					groups = {cracky = 2, level = 2},
-					tiles = {"nether_brick.png"},
-					sounds = default.node_sound_stone_defaults(),
+	stairsplus:register_all("uc_misc", "brick", "uc_misc:brick", {
+		description = "Nether Brick",
+		groups = {cracky = 2, level = 2},
+		tiles = {"nether_brick.png"},
+		sounds = default.node_sound_stone_defaults(),
 	})
 	stairsplus:register_alias_all("nether", "brick", "uc_misc", "brick")
-			stairsplus:register_all(
-			"uc_misc", "rack", "uc_misc:rack", {
-					description = "Nether Rack",
-					groups = {cracky = 2, level = 2},
-					tiles = {"nether_rack.png"},
-					sounds = default.node_sound_stone_defaults(),
+	stairsplus:register_all("uc_misc", "rack", "uc_misc:rack", {
+		description = "Nether Rack",
+		groups = {cracky = 2, level = 2},
+		tiles = {"nether_rack.png"},
+		sounds = default.node_sound_stone_defaults(),
 	})
 	stairsplus:register_alias_all("nether", "rack", "uc_misc", "rack")
 else
 	stairs.register_stair_and_slab(
-			"nether_brick",
-			"uc_misc:brick",
-			{cracky = 2, level = 2},
-			{"nether_brick.png"},
-			"Nether Stair",
-			"Nether Slab",
-			default.node_sound_stone_defaults()
+		"nether_brick",
+		"uc_misc:brick",
+		{cracky = 2, level = 2},
+		{"nether_brick.png"},
+		"Nether Stair",
+		"Nether Slab",
+		default.node_sound_stone_defaults()
 	)
 	stairs.register_stair_and_slab(
-			"nether_rack",
-			"uc_misc:rack",
-			{cracky = 2, level = 2},
-			{"nether_rack.png"},
-			"Nether Rack Stair",
-			"Nether Rack Slab",
-			default.node_sound_stone_defaults()
+		"nether_rack",
+		"uc_misc:rack",
+		{cracky = 2, level = 2},
+		{"nether_rack.png"},
+		"Nether Rack Stair",
+		"Nether Rack Slab",
+		default.node_sound_stone_defaults()
 	)
 end
 
