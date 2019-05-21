@@ -142,11 +142,13 @@ minetest.register_craft({
 -- Spawn bubbles
 local function spawn_particles(player, multiplier)
 	local x_offset = 0.3 * multiplier
+	local yaw = player:get_look_horizontal()
+	local pos = {x=math.cos(yaw) * x_offset, y=1.5, z=math.sin(yaw) * x_offset}
 	minetest.add_particlespawner({
 		amount = math.random(3,6),
 		time = 0.6,
-		minpos = {x=x_offset, y=0.5, z=0},
-		maxpos = {x=x_offset, y=0.5, z=0},
+		minpos = pos,
+		maxpos = pos,
 		minvel = {x=-0.1, y=1, z=-0.1},
 		maxvel = {x=0.1, y=1, z=0.1},
 		minacc = {x=0, y=0, z=0},
