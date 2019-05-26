@@ -1,5 +1,12 @@
-dofile(minetest.get_modpath("uc_misc").."/galaxium.lua")
-dofile(minetest.get_modpath("uc_misc").."/duck.lua")
-dofile(minetest.get_modpath("uc_misc").."/nether.lua")
-dofile(minetest.get_modpath("uc_misc").."/misc.lua")
+local files = {
+	"galaxium",
+	"duck",
+	"nether",
+	"magic",
+	"misc",
+}
+
+for _, file in ipairs(files) do
+	dofile(("%s/%s.lua"):format(minetest.get_modpath("uc_misc"), file))
+end
 
