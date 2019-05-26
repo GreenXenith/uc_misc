@@ -9,6 +9,7 @@ minetest.register_node("uc_misc:orchid", {
 	wield_image = "orchid.png",
 	sunlight_propagates = true,
 	paramtype = "light",
+	paramtype2 = "degrotate",
 	light_source = 4,
 	walkable = false,
 	buildable_to = true,
@@ -18,6 +19,41 @@ minetest.register_node("uc_misc:orchid", {
 		type = "fixed",
 		fixed = {-2 / 16, -0.5, -2 / 16, 2 / 16, 0.4, 2 / 16},
 	},
+})
+
+minetest.register_node("uc_misc:orchid_seeds", {
+	description = "Orchid Seeds",
+	tiles = {"orchid_seeds.png"},
+	inventory_image = "orchid_seeds.png",
+	wield_image = "orchid_seeds.png",
+	drawtype = "signlike",
+	groups = {snappy = 3, attached_node = 1, flammable = 2},
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	walkable = false,
+	sunlight_propagates = true,
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
+	},
+	sounds = default.node_sound_dirt_defaults({
+		dig = {name = "", gain = 0},
+		dug = {name = "default_grass_footstep", gain = 0.2},
+		place = {name = "default_place_node", gain = 0.25},
+	}),
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		local under = vector.subtract(pos, {x = 0, y = 1, z = 0})
+		local node = minetest.get_node(under)
+		if node.name == "default:dirt_with_grass" then
+			minetest.set_node(pos, {name = "uc_misc:orchid", param2 = math.random(0, 179)})
+		end
+	end,
+})
+
+minetest.register_craft({
+	output = "uc_misc:orchid_seeds",
+	type = "shapeless",
+	recipe = {"farming:wheat", "uc_misc:pixie_dust"},
 })
 
 local function get_time()
