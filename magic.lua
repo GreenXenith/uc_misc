@@ -19,6 +19,13 @@ minetest.register_node("uc_misc:orchid", {
 		type = "fixed",
 		fixed = {-2 / 16, -0.5, -2 / 16, 2 / 16, 0.4, 2 / 16},
 	},
+	on_place = function(itemstack, placer, pointed_thing)
+		local under = pointed_thing.under
+		local node = minetest.get_node(under)
+		if node.name == "default:dirt_with_grass" then
+			return minetest.item_place(itemstack, placer, pointed_thing, math.random(0, 179))
+		end
+	end,
 })
 
 minetest.register_node("uc_misc:orchid_seeds", {
