@@ -69,6 +69,14 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "uc_misc:chestplate_galaxium",
+	recipe = {
+		{"basic_materials:brass_ingot", "technic:lead_ingot", "basic_materials:brass_ingot"},
+		{"uc_misc:pixie_dust", "uc_misc:galaxium_ingot", "uc_misc:pixie_dust"},
+	}
+})
+
+minetest.register_craft({
 	output = "uc_misc:stardust_orb",
 	recipe = {
 		{"uc_misc:galaxium_ingot", "cr_plus:crystal_glass", "uc_misc:galaxium_ingot"},
@@ -102,15 +110,22 @@ technic.register_compressor_recipe({
 
 armor:register_armor("uc_misc:shield_galaxium", {
 	description = "Galaxium Shield",
-	inventory_image = "inv_shield_galaxium.png",
+	inventory_image = "uc_misc_inv_shield_galaxium.png",
 	armor_groups = {fleshy=110},
 	groups = {armor_shield=100, armor_heal=90, armor_fire=1, armor_use=10},
 })
 
 armor:register_armor("uc_misc:boots_galaxium", {
 	description = "Galaxium Boots",
-	inventory_image = "inv_boots_galaxium.png",
+	inventory_image = "uc_misc_inv_boots_galaxium.png",
 	groups = {armor_feet=1, physics_speed=1.25, physics_jump=0.55, physics_gravity=-0.1, armor_use=10},
+})
+
+armor:register_armor("uc_misc:chestplate_galaxium", {
+	description = "Galaxium Pauldron",
+	inventory_image = "uc_misc_inv_chestplate_galaxium.png",
+	armor_groups = {fleshy=10, radiation=100, physics_jump=-0.1, physics_speed=-0.2},
+	groups = {armor_torso=1, armor_fire=1, armor_use=10},
 })
 
 table.insert(armor.elements, "orb")
