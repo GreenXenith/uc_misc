@@ -85,8 +85,14 @@ minetest.register_abm({
 })
 
 local function capture(entity, player)
-	if player:get_wielded_item():get_name() == "vessels:glass_bottle" then
-		player:set_wielded_item(ItemStack("uc_misc:fairy_bottle"))
+	local inv = minetest.get_inventory({type = "player", name = player:get_player_name()})
+	local fairy_bottle = ItemStack("uc_misc:fairy_bottle")
+	if player:get_wielded_item():get_name() == "vessels:glass_bottle" and inv:room_for_item("main", fairy_bottle) then
+		local widx = player:get_wield_index()
+		local wielded = inv:get_stack("main", widx)
+		wielded:take_item(1)
+		inv:set_stack("main", widx, wielded)
+		inv:add_item("main", fairy_bottle)
 		entity.object:remove()
 	end
 end
