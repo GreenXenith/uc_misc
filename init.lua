@@ -4,6 +4,7 @@ local files = {
 	"nether",
 	"magic",
 	"misc",
+	"rebreather",
 }
 
 for _, file in ipairs(files) do
